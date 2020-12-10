@@ -1,8 +1,14 @@
 import actionTypes from "./contactsActionTypes";
-const addContact = (contact) => ({
+import { v4 as uuid4 } from "uuid";
+
+const addContact = ({ name, number }) => ({
   type: actionTypes.ADD,
   payload: {
-    contact,
+    contact: {
+      name,
+      number,
+      id: uuid4(),
+    },
   },
 });
 const removeContact = (id) => ({

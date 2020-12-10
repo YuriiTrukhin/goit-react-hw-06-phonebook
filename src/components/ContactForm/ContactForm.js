@@ -4,22 +4,24 @@ import { v4 as uuid4 } from "uuid";
 import styles from "./ContactForm.module.css";
 import newContact from "../../redux/contacts/contactsActions";
 
-const INITIAL_STATE = {
-  name: "",
-  number: "",
-  id: "",
-};
+import Alert from "../Alert/Alert";
+
 class ContactForm extends Component {
-  state = { ...INITIAL_STATE };
+  state = { name: "", number: "", contactAdded: false, declaredName: "" };
 
   handleChange = ({ target }) => {
     this.setState({
-      id: uuid4(),
       [target.name]: target.value,
     });
   };
   handleSubmit = (event) => {
     event.preventDefault();
+    const rule = this.props.list.some((contact) => contact.name === this.state.name);
+    if (rule) {
+      this.setState({ contactAdded: true });
+      setTimeout(() => this.setState({ contactAdded: false }), 2000);
+      return;
+    }
     this.props.addContact({ ...this.state });
     this.setState({
       name: "",
@@ -28,9 +30,11 @@ class ContactForm extends Component {
   };
 
   render() {
-    const { name, number } = this.state;
+    const { name, number, contactAdded } = this.state;
     return (
       <>
+        <Alert contactAdded={contactAdded} />
+
         <div>
           <form className={styles.form} action="" onSubmit={this.handleSubmit}>
             <label className={styles.label} htmlFor="name">
@@ -64,9 +68,9 @@ class ContactForm extends Component {
     );
   }
 }
-// const mapStateToProps = (state, props) => ({
-//   contact: state.contact,
-//   // currentFilter: state.filter,
-// });
+
+const mapStateToProps = (state) => ({
+  list: state.contacts.items,
+});
 const mapDispatchToProps = { addContact: newContact.addContact };
-export default connect(null, mapDispatchToProps)(ContactForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

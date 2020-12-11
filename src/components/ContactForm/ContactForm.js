@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { v4 as uuid4 } from "uuid";
+
 import styles from "./ContactForm.module.css";
 import newContact from "../../redux/contacts/contactsActions";
 
 import Alert from "../Alert/Alert";
 
 class ContactForm extends Component {
-  state = { name: "", number: "", contactAdded: false, declaredName: "" };
+  state = { name: "", number: "", contactAdded: false };
 
   handleChange = ({ target }) => {
     this.setState({

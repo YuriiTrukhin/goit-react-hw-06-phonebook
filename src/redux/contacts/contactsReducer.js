@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
-import actionTypes from "./contactsActionTypes";
+// import actionTypes from "./contactsActionTypes";
+import contactsActions from "./contactsActions";
+import { createReducer } from "@reduxjs/toolkit";
 
 const defaultContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -13,25 +15,36 @@ const INITIAL_STATE = {
   filter: "",
 };
 
-const items = (state = INITIAL_STATE.contacts, { type, payload }) => {
-  switch (type) {
-    case actionTypes.ADD:
-      return [...state, payload.contact];
-    case actionTypes.DELETE:
-      return state.filter((contact) => contact.id !== payload.id);
-    default:
-      return state;
-  }
-};
-const filter = (state = INITIAL_STATE.filter, { type, payload }) => {
-  switch (type) {
-    case actionTypes.FILTER_RENDER:
-      return payload.filter;
+const newContact = (state, action) => [...state, action.payload.contact];
+const removeContact = (state, action) => state.filter((contact) => contact.id !== action.payload);
+// const filter = ()
+const items = createReducer(INITIAL_STATE.contacts, {
+  [contactsActions.addContact]: newContact,
+  [contactsActions.removeContact]: removeContact,
+});
 
-    default:
-      return state;
-  }
-};
+// const items = (state = INITIAL_STATE.contacts, { type, payload }) => {
+//   switch (type) {
+//     case contactsActions.addContact.type:
+//       return [...state, payload.contact];
+//     case contactsActions.removeContact.type:
+//       return state.filter((contact) => contact.id !== payload);
+//     default:
+//       return state;
+//   }
+// };
+const filter = createReducer(INITIAL_STATE.filter, {
+  [contactsActions.filterRender]: (state, action) => action.payload,
+});
+// const filter = (state = INITIAL_STATE.filter, { type, payload }) => {
+//   switch (type) {
+//     case contactsActions.filterRender.type:
+//       return payload;
+
+//     default:
+//       return state;
+//   }
+// };
 export default combineReducers({ items, filter });
 // state = {
 //   contacts: [],

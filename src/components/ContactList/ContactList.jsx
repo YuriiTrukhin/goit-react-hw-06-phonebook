@@ -17,7 +17,7 @@ class ContactList extends Component {
         <TransitionGroup component="ul" className={styles.list}>
           {this.props.list.map((el) => {
             return (
-              <CSSTransition key={el.id} classNames={styles.showbutton} timeout={250}>
+              <CSSTransition key={el.id} classNames={styles} timeout={250}>
                 <li key={el.id} className={styles.listItem}>
                   {el.name} : {el.number}
                   <button className={styles.btn} type="button" onClick={() => this.props.toDelete(el.id)}>

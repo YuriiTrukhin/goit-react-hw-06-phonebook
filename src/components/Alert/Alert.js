@@ -5,7 +5,7 @@ import styles from "../Alert/Alert.module.css";
 
 const Alert = ({ contactAdded }) => {
   return (
-    <CSSTransition in={contactAdded} timeout={250} classNames={styles.alert} unmountOnExit>
+    <CSSTransition in={contactAdded} timeout={250} classNames={styles} unmountOnExit>
       <div className={styles.alertBox}>
         <p>Contact already declared</p>
       </div>
